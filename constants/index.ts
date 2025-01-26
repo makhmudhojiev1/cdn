@@ -82,6 +82,6 @@ export const sortTypes = [
 ];
 
 export const avatarPlaceholderUrl =
-  "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541Z";
+  "https://as1.ftcdn.net/v2/jpg/05/46/20/90/1000_F_546209024_K4HMYt1kaG8sOS0pY2zSnItRq340dfWM.jpg";
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB

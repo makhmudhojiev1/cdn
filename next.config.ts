@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cloud.appwrite.io",
       },
+      {
+        protocol: "https",
+        hostname: "as1.ftcdn.net",
+      },
     ],
   },
 };
