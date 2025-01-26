@@ -5,6 +5,7 @@ import { Query, ID } from "node-appwrite";
 import { createAdminClient } from "@/lib/appwrite";
 import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -57,8 +58,7 @@ export const createAccount = async ({
       {
         fullName,
         email,
-        avatar:
-          "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541",
+        avatar: avatarPlaceholderUrl,
         accountID,
       },
     );
