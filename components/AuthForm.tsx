@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { createAccount } from "@/lib/actions/user.actions";
+import OtpModal from "@/components/OTPModal";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -34,10 +35,9 @@ const authFormSchema = (formType: FormType) => {
 const AuthForm = ({ type }: { type: FormType }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [accountId, setAccountId] = useState(null);
+  const [accountID, setAccountID] = useState(null);
 
   const formSchema = authFormSchema(type);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,9 +57,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
         email: values.email,
       });
 
-      setAccountId(user.accountId);
+      setAccountID(user.accountID);
     } catch {
-      setErrorMessage("Failed to create an account. Please try again.");
+      setErrorMessage("Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -95,6 +95,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               )}
             />
           )}
+
           <FormField
             control={form.control}
             name="email"
@@ -116,6 +117,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               </FormItem>
             )}
           />
+
           <Button
             type="submit"
             className="form-submit-button"
@@ -135,6 +137,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </Button>
 
           {errorMessage && <p className="error-message">*{errorMessage}</p>}
+
           <div className="body-2 flex justify-center">
             <p className="text-light-100">
               {type === "sign-in"
@@ -151,7 +154,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </div>
         </form>
       </Form>
+
+      {accountID && (
+        <OtpModal email={form.getValues("email")} accountID={accountID} />
+      )}
     </>
   );
 };
+
 export default AuthForm;
