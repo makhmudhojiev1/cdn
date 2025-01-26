@@ -41,7 +41,6 @@ const OtpModal = ({
     console.log({ accountId, password });
 
     try {
-      // TODO: Call API to verify OTP
       const sessionId = await verifySecret({ accountId, password });
 
       console.log({ sessionId });
