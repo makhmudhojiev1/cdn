@@ -46,8 +46,8 @@ export const createAccount = async ({
 }) => {
   const existingUser = await getUserByEmail(email);
 
-  const accountID = await sendEmailOTP({ email });
-  if (!accountID) throw new Error("Failed to send OTP");
+  const accountId = await sendEmailOTP({ email });
+  if (!accountId) throw new Error("Failed to send OTP");
 
   if (!existingUser) {
     const { databases } = await createAdminClient();
@@ -60,25 +60,25 @@ export const createAccount = async ({
         fullName,
         email,
         avatar: avatarPlaceholderUrl,
-        accountID,
+        accountId,
       },
     );
   }
 
-  return parseStringify({ accountID });
+  return parseStringify({ accountId });
 };
 
 export const verifySecret = async ({
-  accountID,
+  accountId,
   password,
 }: {
-  accountID: string;
+  accountId: string;
   password: string;
 }) => {
   try {
     const { account } = await createAdminClient();
 
-    const session = await account.createSession(accountID, password);
+    const session = await account.createSession(accountId, password);
 
     (await cookies()).set("appwrite-session", session.secret, {
       path: "/",
@@ -130,10 +130,10 @@ export const signInUser = async ({ email }: { email: string }) => {
     // user exists
     if (existingUser) {
       await sendEmailOTP({ email });
-      return parseStringify({ accountID: existingUser.accountID });
+      return parseStringify({ accountId: existingUser.accountId });
     }
 
-    return parseStringify({ accountID: null, error: "User not found" });
+    return parseStringify({ accountId: null, error: "User not found" });
   } catch (error) {
     handleError(error, "Failed to sign in.");
   }

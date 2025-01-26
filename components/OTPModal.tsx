@@ -23,10 +23,10 @@ import { verifySecret, sendEmailOTP } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
 
 const OtpModal = ({
-  accountID,
+  accountId,
   email,
 }: {
-  accountID: string;
+  accountId: string;
   email: string;
 }) => {
   const router = useRouter();
@@ -38,11 +38,11 @@ const OtpModal = ({
     e.preventDefault();
     setIsLoading(true);
 
-    console.log({ accountID, password });
+    console.log({ accountId, password });
 
     try {
       // TODO: Call API to verify OTP
-      const sessionId = await verifySecret({ accountID, password });
+      const sessionId = await verifySecret({ accountId, password });
 
       console.log({ sessionId });
 
