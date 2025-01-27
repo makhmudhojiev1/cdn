@@ -35,7 +35,7 @@ import {
 } from "@/lib/actions/file.actions";
 import { FileDetails, ShareInput } from "@/components/ActionsModalContent";
 
-const ActionsDropdown = ({ file }: { file: Models.Document }) => {
+export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [action, setAction] = useState<ActionType | null>(null);
