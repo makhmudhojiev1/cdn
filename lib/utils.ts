@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 export const parseStringify = (value: unknown) =>
   JSON.parse(JSON.stringify(value));
 
@@ -11,29 +12,33 @@ export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 
 export const convertFileSize = (sizeInBytes: number, digits?: number) => {
   if (sizeInBytes < 1024) {
-    return sizeInBytes + " Bytes"; // Less than 1 KB, show in Bytes
+    return sizeInBytes + " Bytes";
   } else if (sizeInBytes < 1024 * 1024) {
     const sizeInKB = sizeInBytes / 1024;
-    return sizeInKB.toFixed(digits || 1) + " KB"; // Less than 1 MB, show in KB
+    return sizeInKB.toFixed(digits || 1) + " KB";
   } else if (sizeInBytes < 1024 * 1024 * 1024) {
     const sizeInMB = sizeInBytes / (1024 * 1024);
-    return sizeInMB.toFixed(digits || 1) + " MB"; // Less than 1 GB, show in MB
+    return sizeInMB.toFixed(digits || 1) + " MB";
   } else {
     const sizeInGB = sizeInBytes / (1024 * 1024 * 1024);
-    return sizeInGB.toFixed(digits || 2) + " GB"; // 1 GB or more, show in GB
+    return sizeInGB.toFixed(digits || 2) + " GB";
   }
 };
 
 export const calculateAngle = (sizeInBytes: number) => {
-  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const totalSizeInBytes = 100 * 1024 * 1024 * 1024; // 100GB in bytes
   const percentage = (sizeInBytes / totalSizeInBytes) * 360;
   return Number(percentage.toFixed(2));
 };
 
 export const calculatePercentage = (sizeInBytes: number) => {
-  const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
+  const totalSizeInBytes = 100 * 1024 * 1024 * 1024; // 100GB in bytes
   const percentage = (sizeInBytes / totalSizeInBytes) * 100;
   return Number(percentage.toFixed(1));
+};
+
+export const formatTotalStorage = () => {
+  return "100 GB";
 };
 
 export const getFileType = (fileName: string) => {
@@ -66,7 +71,6 @@ export const getFileType = (fileName: string) => {
     "sketch",
     "afdesign",
     "afphoto",
-    "afphoto",
   ];
   const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg", "webp"];
   const videoExtensions = ["mp4", "avi", "mov", "mkv", "webm"];
@@ -86,15 +90,12 @@ export const formatDateTime = (isoString: string | null | undefined) => {
 
   const date = new Date(isoString);
 
-  // Get hours and adjust for 12-hour format
   let hours = date.getHours();
   const minutes = date.getMinutes();
   const period = hours >= 12 ? "pm" : "am";
 
-  // Convert hours to 12-hour format
   hours = hours % 12 || 12;
 
-  // Format the time and date parts
   const time = `${hours}:${minutes.toString().padStart(2, "0")}${period}`;
   const day = date.getDate();
   const monthNames = [
@@ -118,10 +119,9 @@ export const formatDateTime = (isoString: string | null | undefined) => {
 
 export const getFileIcon = (
   extension: string | undefined,
-  type: FileType | string,
+  type: string,
 ) => {
   switch (extension) {
-    // Document
     case "pdf":
       return "/assets/icons/file-pdf.svg";
     case "doc":
@@ -135,10 +135,8 @@ export const getFileIcon = (
     case "xls":
     case "xlsx":
       return "/assets/icons/file-document.svg";
-    // Image
     case "svg":
       return "/assets/icons/file-image.svg";
-    // Video
     case "mkv":
     case "mov":
     case "avi":
@@ -149,7 +147,6 @@ export const getFileIcon = (
     case "m4v":
     case "3gp":
       return "/assets/icons/file-video.svg";
-    // Audio
     case "mp3":
     case "mpeg":
     case "wav":
@@ -178,8 +175,7 @@ export const getFileIcon = (
   }
 };
 
-// APPWRITE URL UTILS
-// Construct appwrite file URL - https://appwrite.io/docs/apis/rest#images
+// Appwrite URL Utilities
 export const constructFileUrl = (bucketFileId: string) => {
   return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
 };
@@ -188,7 +184,7 @@ export const constructDownloadUrl = (bucketFileId: string) => {
   return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/download?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
 };
 
-// DASHBOARD UTILS
+// Dashboard Utilities
 export const getUsageSummary = (totalSpace: any) => {
   return [
     {
